@@ -14,16 +14,16 @@
 
 #define SYS_INPUT_DIR "/sys/devices/virtual/input/"
 
-void emit(int fd, int type, int code, int val);
-void emit_cset(int fd, control_set_t cset, int val);
 control_set_t meta_codes(char **remaining);
-void emit_key(int fd, int code);
-void emit_cmd(int fd, char *cmd);
-static int is_event_device(const struct dirent *dent);
 static char *fetch_device_node(const char *path);
 static int fetch_syspath_and_devnode(int fd, char **syspath, char **devnode);
+static int is_event_device(const struct dirent *dent);
 static void ensure_device(int fd);
 static void usage();
+void emit(int fd, int type, int code, int val);
+void emit_cmd(int fd, char *cmd);
+void emit_cset(int fd, control_set_t cset, int val);
+void emit_key(int fd, int code);
 
 void emit(int fd, int type, int code, int val) {
   struct input_event ie;

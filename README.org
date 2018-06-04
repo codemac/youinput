@@ -1,0 +1,23 @@
+* =youinput=
+
+Youinput is a linux command line utility for typing input. It accepts
+the emacs =kbd= syntax for key combinations, which looks like the
+following:
+
+Example BNF of the syntax:
+
+#+begin_example
+  <cmd> := <term>
+  <term> := <modifier> "-" <key> | <key>
+  <modifier> := "C" | "S" | "M" | "s"
+  <key> := A-Za-z | <special key>
+  <special key> := "<return>"   |
+		   "<esc>"      |
+		   "<capslock>" |
+		   "<f1>"       ...
+#+end_example
+
+Example entries:
+
+: C-h s
+
