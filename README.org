@@ -20,4 +20,5 @@ Example BNF of the syntax:
 Example entries:
 
 : C-h s
+: S-h e l l o
 
