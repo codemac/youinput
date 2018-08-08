@@ -14,6 +14,15 @@
 
 #define SYS_INPUT_DIR "/sys/devices/virtual/input/"
 
+struct control_set {
+  bool ctrl;
+  bool shift;
+  bool meta;
+  bool alt;
+};
+
+typedef struct control_set control_set_t;
+
 control_set_t meta_codes(char **remaining);
 static char *fetch_device_node(const char *path);
 static int fetch_syspath_and_devnode(int fd, char **syspath, char **devnode);
@@ -37,15 +46,6 @@ void emit(int fd, int type, int code, int val) {
 
   write(fd, &ie, sizeof(ie));
 }
-
-struct control_set {
-  bool ctrl;
-  bool shift;
-  bool meta;
-  bool alt;
-};
-
-typedef struct control_set control_set_t;
 
 void emit_cset(int fd, control_set_t cset, int val) {
   if (cset.shift) {
@@ -451,7 +451,7 @@ int main(int argc, char **argv)
     usage();
   }
 
-  for (int i = 0; i < arg, i++) {
+  for (int i = 0; i < argc; i++) {
     emit_cmd(fd, argv[i]);
   }
 
