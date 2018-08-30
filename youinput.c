@@ -188,8 +188,6 @@ int parse_special_code(char *cmd) {
     single_code = KEY_KPASTERISK;
   } else if (strcmp(cmd, "<leftalt>") == 0) {
     single_code = KEY_LEFTALT;
-  } else if (strcmp(cmd, "<space>") == 0) {
-    single_code = KEY_SPACE;
   } else if (strcmp(cmd, "<capslock>") == 0) {
     single_code = KEY_CAPSLOCK;
   } else if (strcmp(cmd, "<numlock>") == 0) {
@@ -537,6 +535,7 @@ void emit_cmd(int fd, char *cmd) {
         printf("Failed to parse code: %s", cmd);
         return;
       }
+      goto emit_keys;
     }
   }
 
@@ -743,6 +742,7 @@ void emit_cmd(int fd, char *cmd) {
       break;
   }
 
+emit_keys:
   emit_cset(fd, cset, 1);
   emit_key(fd, single_code);
   emit_cset(fd, cset, 0);
