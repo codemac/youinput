@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-c -O3
-LDFLAGS=
+LDFLAGS=-lX11 -lXi
 SOURCES=youinput.c
 OBJECTS=$(SOURCES:.c=.o)
 BINARY=youinput

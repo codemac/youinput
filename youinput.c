@@ -9,8 +9,13 @@
 #include <string.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
+
+#include <X11/extensions/XInput.h>
+#include <X11/Xlib.h>
 
 #define SYS_INPUT_DIR "/sys/devices/virtual/input/"
 
@@ -816,6 +821,44 @@ static void usage(void) {
   printf("youniput <cmd>...\n");
 }
 
+// This waits for the X11 system to pick up on the keyboard. However, we do some
+// hackery here with processes so that way we use the "default" keyboard of X11
+// rather than whatever the user has configured. We do this by forking a child,
+// and waiting for the keyboard to appear over there. I'm not sure why this
+// works exactly, if I did I probably wouldn't need to fork a child process.
+static void ensure_x11_device() {
+  pid_t pid = fork();
+  if (pid == 0) {
+    for (;;) {
+      Display *dpy = XOpenDisplay(NULL);
+      int ndev;
+      XDeviceInfo *list = XListInputDevices(dpy, &ndev);
+      for (int i = 0; i < ndev; i++) {
+        if (strcmp("youinput device", list[i].name) == 0) {
+          XFreeDeviceList(list);
+          XCloseDisplay(dpy);
+          exit(0);
+          return;
+        }
+      }
+      XFreeDeviceList(list);
+      XCloseDisplay(dpy);
+      struct timespec ts;
+      struct timespec remaining;
+      ts.tv_sec = 0;
+      // wait 1 milliseconds
+      ts.tv_nsec = 1000000;
+      // we explicitly ignore whether or not we get EINTR, we don't need
+      // anything exact.
+      (void) nanosleep(&ts, &remaining);
+    }
+  } else {
+    int status;
+    waitpid(pid, &status, 0);
+  }
+
+}
+
 int main(int argc, char **argv)
 {
   int fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
@@ -826,7 +869,7 @@ int main(int argc, char **argv)
 
   ensure_sys_device(fd);
 
-  sleep(1);
+  ensure_x11_device();
 
   if (argc <= 1) {
     usage();
