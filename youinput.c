@@ -673,60 +673,98 @@ void emit_cmd(int fd, char *cmd) {
     case ' ':
       single_code = KEY_SPACE;
       break;
+    case '!':
+      cset.shift = true;
     case '1':
       single_code = KEY_1;
       break;
+    case '@':
+      cset.shift = true;
     case '2':
       single_code = KEY_2;
       break;
+    case '#':
+      cset.shift = true;
     case '3':
       single_code = KEY_3;
       break;
+    case '$':
+      cset.shift = true;
     case '4':
       single_code = KEY_4;
       break;
+    case '%':
+      cset.shift = true;
     case '5':
       single_code = KEY_5;
       break;
+    case '^':
+      cset.shift = true;
     case '6':
       single_code = KEY_6;
       break;
+    case '&':
+      cset.shift = true;
     case '7':
       single_code = KEY_7;
       break;
+    case '*':
+      cset.shift = true;
     case '8':
       single_code = KEY_8;
       break;
+    case '(':
+      cset.shift = true;
     case '9':
       single_code = KEY_9;
       break;
+    case ')':
+      cset.shift = true;
     case '0':
       single_code = KEY_0;
       break;
+    case '_':
+      cset.shift = true;
     case '-':
       single_code = KEY_MINUS;
       break;
+    case '+':
+      cset.shift = true;
     case '=':
       single_code = KEY_EQUAL;
       break;
+    case '?':
+      cset.shift = true;
     case '/':
       single_code = KEY_SLASH;
       break;
+    case '{':
+      cset.shift = true;
     case '[':
       single_code = KEY_LEFTBRACE;
       break;
+    case '}':
+      cset.shift = true;
     case ']':
       single_code = KEY_RIGHTBRACE;
       break;
+    case ':':
+      cset.shift = true;
     case ';':
       single_code = KEY_SEMICOLON;
       break;
+    case '"':
+      cset.shift = true;
     case '\'':
       single_code = KEY_APOSTROPHE;
       break;
+    case '~':
+      cset.shift = true;
     case '`':
       single_code = KEY_GRAVE;
       break;
+    case '|':
+      cset.shift = true;
     case '\\':
       single_code = KEY_BACKSLASH;
       break;
